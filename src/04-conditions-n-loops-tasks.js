@@ -290,8 +290,9 @@ function reverseString(str) {
  *   87354 => 45378
  *   34143 => 34143
  */
-function reverseInteger(/* num */) {
-  throw new Error('Not implemented');
+function reverseInteger(num) {
+  const str = num.toString().split('').reverse().join('');
+  return Number(str);
 }
 
 
@@ -315,8 +316,27 @@ function reverseInteger(/* num */) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  const numbers = ccn.toString().split('');
+  const reversedNumbers = [];
+  for (let i = numbers.length - 1; i >= 0; i -= 1) {
+    reversedNumbers.push(numbers[i]);
+  }
+  let sum = 0;
+  for (let i = 0; i < reversedNumbers.length; i += 1) {
+    let num = Number(reversedNumbers[i]);
+    if (i % 2 === 1) {
+      num *= 2;
+      if (num > 9) {
+        num -= 9;
+      }
+    }
+    sum += num;
+  }
+  if (sum % 10 === 0) {
+    return true;
+  }
+  return false;
 }
 
 /**
@@ -426,8 +446,21 @@ function toNaryString(num, n) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  let part = '';
+  let arr = '';
+  for (let i = 1; i < pathes.length; i += 1) {
+    part = pathes[i - 1].substring(0, pathes[0].lastIndexOf('/')).concat('/');
+    const last = pathes[i].lastIndexOf('/');
+    arr = pathes[i].substring(0, last).concat('/');
+    while (arr !== part && part.length > 0) {
+      part = part.substring(0, part.length - 1);
+    }
+  }
+  if (arr.startsWith('/') && !part.endsWith('/')) {
+    part = part.concat('/');
+  }
+  return part;
 }
 
 
@@ -503,8 +536,24 @@ function getMatrixProduct(m1, m2) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  for (let i = 0; i < 3; i += 1) {
+    if (position[0][i] && position[0][i] === position[1][i] && position[1][i] === position[2][i]) {
+      return position[0][i];
+    }
+  }
+  for (let i = 0; i < 3; i += 1) {
+    if (position[i][0] && position[i][0] === position[i][1] && position[i][1] === position[i][2]) {
+      return position[i][0];
+    }
+  }
+  if (position[0][2] && position[0][2] === position[1][1] && position[1][1] === position[2][0]) {
+    return position[0][2];
+  }
+  if (position[0][0] && position[0][0] === position[1][1] && position[1][1] === position[2][2]) {
+    return position[0][0];
+  }
+  return undefined;
 }
 
 
